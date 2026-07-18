@@ -11,18 +11,22 @@ class InitialBinding extends Bindings {
 
     Get.lazyPut<AuthController>(
       () => AuthController(),
+      fenix: true,
     );
 
     Get.lazyPut<SpellController>(
       () => SpellController(),
+      fenix: true,
     );
 
     Get.lazyPut<HouseController>(
       () => HouseController(),
+      fenix: true,
     );
 
     Get.lazyPut<ProfileController>(
       () => ProfileController(),
+      fenix: true,
     );
 
   }
