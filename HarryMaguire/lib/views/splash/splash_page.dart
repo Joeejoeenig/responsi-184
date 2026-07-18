@@ -72,28 +72,34 @@ class _SplashPageState extends State<SplashPage> {
 
   final AuthController auth = Get.find<AuthController>();
 
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     Future.delayed(
+//       const Duration(seconds: 2),
+//       () {
+
+//         if(auth.isLoggedIn.value){
+
+//           Get.offAllNamed(Routes.home);
+
+//         }else{
+
+//           Get.offAllNamed(Routes.login);
+
+//         }
+
+//       },
+//     );
+
+//   }
+
   @override
   void initState() {
     super.initState();
-
-    Future.delayed(
-      const Duration(seconds: 2),
-      () {
-
-        if(auth.isLoggedIn.value){
-
-          Get.offAllNamed(Routes.home);
-
-        }else{
-
-          Get.offAllNamed(Routes.login);
-
-        }
-
-      },
-    );
-
-  }
+    
+    Get.find<AuthController>().checkLogin();}
 
   @override
   Widget build(BuildContext context) {

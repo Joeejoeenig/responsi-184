@@ -4,48 +4,56 @@
 // import '../routes/app_routes.dart';
 
 // class AuthController extends GetxController {
-
 //   final GetStorage storage = GetStorage();
 
-//   final RxString username = ''.obs;
-
-//   final RxBool isLoggedIn = false.obs;
+//   final username = ''.obs;
+//   final isLoggedIn = false.obs;
 
 //   @override
 //   void onInit() {
 //     super.onInit();
 
 //     isLoggedIn.value = storage.read('isLoggedIn') ?? false;
-
 //     username.value = storage.read('username') ?? '';
 //   }
 
-//   void login(String user) {
+//   void login({
+//     required String username,
+//     required String password,
+//   }) {
+//     if (username.length < 5) {
+//       Get.snackbar(
+//         "Login Gagal",
+//         "Username minimal 5 karakter",
+//       );
+//       return;
+//     }
 
-//     username.value = user;
+//     if (password != "123230184") {
+//       Get.snackbar(
+//         "Login Gagal",
+//         "Password (NIM) salah",
+//       );
+//       return;
+//     }
 
+//     this.username.value = username;
 //     isLoggedIn.value = true;
 
-//     storage.write('username', user);
-
-//     storage.write('isLoggedIn', true);
+//     storage.write("username", username);
+//     storage.write("isLoggedIn", true);
 
 //     Get.offAllNamed(Routes.home);
-
 //   }
 
 //   void logout() {
-
 //     storage.erase();
 
 //     username.value = '';
-
 //     isLoggedIn.value = false;
 
 //     Get.offAllNamed(Routes.login);
-
 //   }
-
 // }
 
 import 'package:get/get.dart';
@@ -54,17 +62,29 @@ import 'package:get_storage/get_storage.dart';
 import '../routes/app_routes.dart';
 
 class AuthController extends GetxController {
-  final GetStorage storage = GetStorage();
+  final _storage = GetStorage();
 
-  final username = ''.obs;
-  final isLoggedIn = false.obs;
+  static const String nim = "123230184";
+
+  final RxString username = "".obs;
+  final RxBool isLoggedIn = false.obs;
 
   @override
   void onInit() {
     super.onInit();
 
-    isLoggedIn.value = storage.read('isLoggedIn') ?? false;
-    username.value = storage.read('username') ?? '';
+    username.value = _storage.read("username") ?? "";
+    isLoggedIn.value = _storage.read("isLoggedIn") ?? false;
+  }
+
+  void checkLogin() {
+    Future.delayed(const Duration(seconds: 2), () {
+      if (isLoggedIn.value) {
+        Get.offAllNamed(Routes.home);
+      } else {
+        Get.offAllNamed(Routes.login);
+      }
+    });
   }
 
   void login({
@@ -79,11 +99,10 @@ class AuthController extends GetxController {
       return;
     }
 
-    // GANTI DENGAN NIM KAMU
-    if (password != "123230184") {
+    if (password != nim) {
       Get.snackbar(
         "Login Gagal",
-        "Password (NIM) salah",
+        "Password harus berupa NIM",
       );
       return;
     }
@@ -91,16 +110,16 @@ class AuthController extends GetxController {
     this.username.value = username;
     isLoggedIn.value = true;
 
-    storage.write("username", username);
-    storage.write("isLoggedIn", true);
+    _storage.write("username", username);
+    _storage.write("isLoggedIn", true);
 
     Get.offAllNamed(Routes.home);
   }
 
   void logout() {
-    storage.erase();
+    _storage.erase();
 
-    username.value = '';
+    username.value = "";
     isLoggedIn.value = false;
 
     Get.offAllNamed(Routes.login);
